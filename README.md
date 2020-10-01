@@ -1,5 +1,5 @@
 # **Gitlab CI Pipeline for Looker Content Validator**
-This repository contains a Python script and Jinja template for running the Looker Content Validator when Merge Requests are created on Gitlab, as well as the `.gitlab-ci.yml` for configuring the pipeline. These should be added to your LookML repository.
+This repository contains a Python script and Jinja template for running the Looker Content Validator when Merge Requests are created on Gitlab (and posting/updating the results in a comment/note), as well as the `.gitlab-ci.yml` for configuring the pipeline. These should be added to your LookML repository.
 
 The script and template are in the `gitlab-ci` folder so as to keep your LookML repository tidy.
 

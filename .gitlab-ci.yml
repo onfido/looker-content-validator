@@ -1,0 +1,9 @@
+Run Validator:
+  image: python:3.8
+  variables:
+    LOOKERSDK_BASE_URL: https://looker.bi.onfido.xyz:19999
+  script:
+    - pip3 install python-gitlab jinja2 looker-sdk
+    - python gitlab-ci/content_validator.py
+  only:
+    - merge_requests

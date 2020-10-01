@@ -3,7 +3,7 @@ This repository contains a Python script and Jinja template for running the Look
 
 The script and template are in the `gitlab-ci` folder so as to keep your LookML repository tidy.
 
-The python script `content_validator.py` and the isn't visible in the Looker IDE, but we shouldn't be working on anything here from the Looker IDE.
+The python script `content_validator.py` won't be visible in the Looker IDE, but you shouldn't be working on it from the Looker IDE.
 
 ## **Content Validator script**
 The script won't be visible in the Looker IDE.

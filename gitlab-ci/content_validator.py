@@ -15,6 +15,8 @@ base_url = os.environ.get("LOOKERSDK_BASE_URL")
 gitlab_api_token = os.environ.get("GITLAB_API_TOKEN")
 merge_request_id = os.environ.get("CI_MERGE_REQUEST_IID")
 project_id = os.environ.get("CI_PROJECT_ID")
+looker_project_name = "reports"
+looker_model_name = "reports"
 
 def validation():
     """Runs Content Validator and posts results in note on merge request"""
@@ -23,10 +25,10 @@ def validation():
 
     # switch to dev mode & relevant branch
     sdk.update_session(WriteApiSession(workspace_id="dev"))
-    sdk.update_git_branch("reports", WriteGitBranch(name=branch_name))
+    sdk.update_git_branch(looker_project_name, WriteGitBranch(name=branch_name))
     
     # make sure we have the latest code
-    sdk.reset_project_to_remote("reports")
+    sdk.reset_project_to_remote(looker_project_name)
 
     # pull from upstream
 
@@ -144,27 +146,33 @@ def group_errors(broken_content):
             name = item.dashboard_filter.name + " 🔍"
         elif item.dashboard:
             tooltip = f"Tile on Dashboard: {item.dashboard.title}"
-            name = item.dashboard_element.title + " 📊"
+            if item.dashboard_element.title:
+                title = item.dashboard_element.title
+            else:
+                title = '<no title title>'
+            name = title + " 📊"
+
 
         for e in errors:
             model = e.model_name or ''
-            explore = e.explore_name or ''
-            error_text = e.message
-            new_details = [
-                name,
-                space_name,
-                model,
-                explore,                
-                url,
-                space_url,
-                tooltip
-            ]
-            if error_text in grouped_errors.keys():
-                details = grouped_errors[error_text]
-                details.append(new_details)
-            else:
-                details = [new_details]
-            grouped_errors[error_text] = details
+            if model == looker_model_name: 
+                explore = e.explore_name or ''
+                error_text = e.message
+                new_details = [
+                    name,
+                    space_name,
+                    model,
+                    explore,                
+                    url,
+                    space_url,
+                    tooltip
+                ]
+                if error_text in grouped_errors.keys():
+                    details = grouped_errors[error_text]
+                    details.append(new_details)
+                else:
+                    details = [new_details]
+                grouped_errors[error_text] = details
 
     return grouped_errors
 

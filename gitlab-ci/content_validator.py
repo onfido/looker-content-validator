@@ -132,11 +132,11 @@ def group_errors(broken_content):
         item_content_type = getattr(item, content_type)
         id = item_content_type.id
         name = item_content_type.title
-        space_id = item_content_type.space.id
-        space_name = item_content_type.space.name
+        folder_id = item_content_type.folder.id
+        folder_name = item_content_type.folder.name
         errors = item.errors
         url = f"{base_url_no_port}/{content_type}s/{id}"
-        space_url = f"{base_url_no_port}/spaces/{space_id}"
+        folder_url = f"{base_url_no_port}/folders/{folder_id}"
         tooltip = ""
         if item.scheduled_plan:
             tooltip = f"Schedule for Look: {item.look.title}"
@@ -160,11 +160,11 @@ def group_errors(broken_content):
                 error_text = e.message
                 new_details = [
                     name,
-                    space_name,
+                    folder_name,
                     model,
                     explore,                
                     url,
-                    space_url,
+                    folder_url,
                     tooltip
                 ]
                 if error_text in grouped_errors.keys():
